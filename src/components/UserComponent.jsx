@@ -1,43 +1,45 @@
-import React,{ useState } from 'react';
-import UserFavoriteFlag from './UserFavoriteFlag';
+import React from "react";
+import UserFavoriteFlag from "./UserFavoriteFlag";
+import PropTypes from "prop-types";
 
-const UserComponent = (props) => {
-
-    const user = props.user
-    
-    const checkFlag = () => {
-        console.log('check')
-    }
-
-    const removeItem = (index) => {
-        props.setPeoples(prevPeoples => prevPeoples.filter(item => item._id !== index))
-    }
-
-  
-
+const UserComponent = ({ user, removeItem }) => {
     return (
         <tbody>
             <tr>
                 <th scope="row">{user.name}</th>
-                    <td>{user.qualities.map(quality =>
-                         <span className={`badge m-1 bg-${quality.color}`}
-                         key = {quality._id}> 
-                         {quality.name}
-                          </span>)}
-                    </td>
-                    <td>{user.profession.name}</td> 
-                    <td>{user.completedMeetings}</td>
-                    <td>{user.rate}/5</td>
-                    <td><UserFavoriteFlag /></td>
-                    <th scope="col">
-                        <button type="button" className="btn btn-sm btn-danger "
-                            onClick={() => removeItem(user._id)}>
-                            Удалить
-                        </button>                           
+                <td>
+                    {user.qualities.map((quality) => (
+                        <span
+                            className={`badge m-1 bg-${quality.color}`}
+                            key={quality._id}
+                        >
+                            {quality.name}
+                        </span>
+                    ))}
+                </td>
+                <td>{user.profession.name}</td>
+                <td>{user.completedMeetings}</td>
+                <td>{user.rate}/5</td>
+                <td>
+                    <UserFavoriteFlag />
+                </td>
+                <th scope="col">
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-danger "
+                        onClick={() => removeItem(user._id)}
+                    >
+                        Удалить
+                    </button>
                 </th>
             </tr>
         </tbody>
     );
+};
+
+UserComponent.propTypes = {
+    user: PropTypes.object.isRequired,
+    removeItem: PropTypes.func.isRequired
 };
 
 export default UserComponent;
